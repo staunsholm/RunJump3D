@@ -3,7 +3,7 @@
     "use strict";
 
     // setup
-    var section = new RunJump3D.Section("straight", 50).getAll();
+    var section = new RunJump3D.Section("straight", 100).getAll();
 
     var scene;
     var camera;
@@ -16,7 +16,6 @@
     var player;
 
     init();
-    requestAnimationFrame(animate);
 
     var ambient = new THREE.AmbientLight(0x444444);
     scene.add(ambient);
@@ -56,7 +55,7 @@
     scene.add(player);
 
     // level geometry
-    geometry = new THREE.CubeGeometry(50, 1, 250);
+    geometry = new THREE.CubeGeometry(50, 20, 250);
 
     var texture = THREE.ImageUtils.loadTexture("assets/water.jpg");
     texture.repeat.set(0.7, 1);
@@ -74,16 +73,16 @@
         });
 
         mesh = new THREE.Mesh(geometry, material);
-        mesh.position.x = section[i].x - 250;
-        mesh.position.y = section[i].y;
+        mesh.position.x = section[i].x1 - 150;
+        mesh.position.y = section[i].y1 - 10;
         mesh.position.z = 0;
         mesh.castShadow = false;
         mesh.receiveShadow = true;
         scene.add(mesh);
 
         mesh = new THREE.Mesh(geometry, material);
-        mesh.position.x = section[i].x - 250;
-        mesh.position.y = 50 - section[i].y;
+        mesh.position.x = section[i].x2 - 150;
+        mesh.position.y = section[i].y2 - 10;
         mesh.position.z = 0;
         mesh.castShadow = false;
         mesh.receiveShadow = true;
@@ -93,8 +92,18 @@
     // controls
     var cameraRotation = 0;
     var cameraPosition = camera.position.y;
+
+    requestAnimationFrame(animate);
+
+    var go = false;
     document.addEventListener("click", function ()
     {
+        if (!go)
+        {
+            go = true;
+            return;
+        }
+
         cameraRotation = cameraRotation === 0 ? Math.PI : 0;
         TweenLite.to(camera.rotation, 1, {z: cameraRotation, delay: 0.1});
 
@@ -122,7 +131,7 @@
     }
 
     var oldTime = Date.now();
-    var speed = 1;
+    var speed = 0;
 
     function animate(time)
     {
@@ -132,7 +141,7 @@
         if (dt > 1000) dt = 1;
         oldTime = time;
 
-        //speed += dt / 1000;
+        if (go) speed += dt / 5000;
 
         camera.position.x += dt / 20 * speed;
 

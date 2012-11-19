@@ -14,23 +14,27 @@ RunJump3D.Section = function (type, length, seed)
     for (var i = 0; i < length; i++)
     {
         section.push({
-            x: i * 50,
-            y: 0
+            x1: i * 50,
+            y1: random.genrand_real1() < 0.1 ? 20 : 0,
+            x2: i * 50,
+            y2: random.genrand_real1() < 0.1 ? 50 : 70
         });
     }
 
     /**
      * Get part of section
-     * @param type
      * @param start
      * @param end
-     * @param seed
      */
     this.getPart = function (start, end)
     {
         return section.slice(start, end);
     };
 
+    /**
+     * returns entire section
+     * @return {Array}
+     */
     this.getAll = function ()
     {
         return section;
