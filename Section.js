@@ -1,9 +1,9 @@
-var RunJump3D = RunJump3D || {};
-
-RunJump3D.Section = function (type, length, seed)
+/**
+ * Section Class
+ * @constructor
+ */
+var Section = function (type, length, seed)
 {
-    "use strict";
-
     if (!seed) seed = 1337;
 
     var section = [];

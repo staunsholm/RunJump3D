@@ -1,9 +1,7 @@
 (function ()
 {
-    "use strict";
-
     // setup
-    var section = new RunJump3D.Section("straight", 100).getAll();
+    var section = new Section("straight", 20).getAll();
 
     var scene;
     var camera;
@@ -55,39 +53,42 @@
     scene.add(player);
 
     // level geometry
-    geometry = new THREE.CubeGeometry(50, 20, 250);
-
     var texture = THREE.ImageUtils.loadTexture("assets/water.jpg");
     texture.repeat.set(0.7, 1);
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 
-    for (var i = 0, l = section.length; i < l; i++)
-    {
-        material = new THREE.MeshPhongMaterial({
-            ambient: 0x444444,
-            color: Math.random() * 0xffffff,
-            shininess: 300,
-            specular: 0x33AA33,
-            shading: THREE.SmoothShading,
-            map: texture
-        });
+    material = new THREE.MeshPhongMaterial({
+        ambient: 0x0,
+        color: Math.random() * 0xffffff,
+        shininess: 100,
+        specular: 0x333355,
+        diffuse: 0x0,
+        shading: THREE.SmoothShading,
+        map: null,
+        wireframe: false
+    });
 
-        mesh = new THREE.Mesh(geometry, material);
-        mesh.position.x = section[i].x1 - 150;
-        mesh.position.y = section[i].y1 - 10;
-        mesh.position.z = 0;
-        mesh.castShadow = false;
-        mesh.receiveShadow = true;
-        scene.add(mesh);
+    geometry = new THREE.PlaneGeometry(section.length * 50, 200, section.length, 1);
 
-        mesh = new THREE.Mesh(geometry, material);
-        mesh.position.x = section[i].x2 - 150;
-        mesh.position.y = section[i].y2 - 10;
-        mesh.position.z = 0;
-        mesh.castShadow = false;
-        mesh.receiveShadow = true;
-        scene.add(mesh);
-    }
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.position.x = 150;
+    mesh.position.y = 50;
+    mesh.position.z = -50;
+    mesh.rotation.x = Math.PI / 2;
+    mesh.castShadow = false;
+    mesh.receiveShadow = true;
+    scene.add(mesh);
+
+    geometry = new THREE.PlaneGeometry(section.length * 50, 200, section.length, 1);
+
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.position.x = 150;
+    mesh.position.y = 0;
+    mesh.position.z = -50;
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.castShadow = false;
+    mesh.receiveShadow = true;
+    scene.add(mesh);
 
     // controls
     var cameraRotation = 0;
@@ -100,6 +101,7 @@
     {
         if (!go)
         {
+            //toggleFullScreen();
             go = true;
             return;
         }
@@ -116,7 +118,10 @@
 
     function init()
     {
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+        var width = window.innerWidth / 2;
+        var height = window.innerHeight / 2;
+
+        camera = new THREE.PerspectiveCamera(75, width / height, 1, 10000);
         camera.position.x = -100;
         camera.position.y = 20;
         camera.position.z = 50;
@@ -126,7 +131,7 @@
         renderer = new THREE.WebGLRenderer();
         renderer.shadowMapEnabled = true;
         renderer.shadowMapSoft = true;
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(width, height);
         document.body.appendChild(renderer.domElement);
     }
 

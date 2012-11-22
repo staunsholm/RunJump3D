@@ -1,7 +1,19 @@
 ﻿<html>
 <head>
     <title>Run Jump 3D</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <style>
+        canvas {
+            /* Anchor to the upper left */
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            /* Scale out 2X from the corner */
+            width: 100%;
+            height: 100%;
+        }
+
         body {
             margin: 0;
         }
@@ -10,6 +22,7 @@
 <body>
 
 <script src="libs/three.min.js"></script>
+<script src="libs/FullScreen.js"></script>
 <script src="libs/mersenne-twister.js"></script>
 <script src="libs/VisibilityChange.js"></script>
 <script src="libs/TweenLite.min.js"></script>
