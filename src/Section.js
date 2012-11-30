@@ -14,10 +14,10 @@ var Section = function (type, length, seed)
     for (var i = 0; i < length; i++)
     {
         section.push({
-            x1: i * 50,
-            y1: random.genrand_real1() < 0.1 ? 20 : 0,
-            x2: i * 50,
-            y2: random.genrand_real1() < 0.1 ? 50 : 70
+            x1: i * 10,
+            y1: Math.sin(i / 20) * 10,
+            x2: i * 10,
+            y2: Math.sin(i / 20) * 10
         });
     }
 

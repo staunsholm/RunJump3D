@@ -1,7 +1,7 @@
 (function ()
 {
     // setup
-    var section = new Section("straight", 20).getAll();
+    var section = new Section("straight", 100).getAll();
 
     var scene;
     var camera;
@@ -44,7 +44,7 @@
         shading: THREE.SmoothShading
     });
 
-    geometry = new THREE.SphereGeometry(5);
+    geometry = new THREE.SphereGeometry(5, 8, 8);
     player = new THREE.Mesh(geometry, material);
     player.castShadow = true;
     player.receiveShadow = false;
@@ -65,21 +65,21 @@
         diffuse: 0x0,
         shading: THREE.SmoothShading,
         map: null,
-        wireframe: false
+        wireframe: true
     });
 
-    geometry = new THREE.PlaneGeometry(section.length * 50, 200, section.length, 1);
+    geometry = new THREE.TwisterGeometry(section.length * 30, 200, section.length, 1, section);
 
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.x = 150;
     mesh.position.y = 50;
     mesh.position.z = -50;
-    mesh.rotation.x = Math.PI / 2;
+    mesh.rotation.x = -Math.PI / 2;
     mesh.castShadow = false;
     mesh.receiveShadow = true;
     scene.add(mesh);
 
-    geometry = new THREE.PlaneGeometry(section.length * 50, 200, section.length, 1);
+    geometry = new THREE.TwisterGeometry(section.length * 30, 200, section.length, 1, section);
 
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.x = 150;
@@ -146,7 +146,8 @@
         if (dt > 1000) dt = 1;
         oldTime = time;
 
-        if (go) speed += dt / 5000;
+        speed += dt / 5000;
+        if (!go) speed = 0;
 
         camera.position.x += dt / 20 * speed;
 
